@@ -20,8 +20,4 @@ public class MainController {
         return dbService.getSchedules();
     }
 
-    @PostMapping("/test")
-    public boolean test (@RequestBody ){
-        return true;
-    }
 }
