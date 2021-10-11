@@ -1,25 +1,29 @@
 package com.example.shedule.entities;
 
+import javax.persistence.*;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.List;
 
+@Entity
+@Table(name="schedules")
 public class Schedule {
-    private int COUNTER = 0;
-
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private int Id;
     private String name;
     private LocalTime timeStart;
     private LocalTime timeEnd;
-    private List<DayOfWeek> days;
+    private String dayOfWeek;
 
+    public Schedule() {
+    }
 
-    public Schedule(String name, LocalTime timeStart, LocalTime timeEnd, List<DayOfWeek> days) {
-        this.Id = ++COUNTER;
+    public Schedule(String name, LocalTime timeStart, LocalTime timeEnd, String dayOfWeek) {
         this.name = name;
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
-        this.days = days;
+        this.dayOfWeek = dayOfWeek;
     }
 
     public int getId() {
@@ -54,11 +58,11 @@ public class Schedule {
         this.timeEnd = timeEnd;
     }
 
-    public List<DayOfWeek> getDays() {
-        return days;
+    public String getDayOfWeek() {
+        return dayOfWeek;
     }
 
-    public void setDays(List<DayOfWeek> days) {
-        this.days = days;
+    public void setDayOfWeek(String dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
     }
 }
