@@ -7,8 +7,10 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,15 +31,16 @@ public class MainController {
                     @HystrixProperty(name="maxQueueSize", value="50"),
             })
     public Optional<Schedule> getSchedule(@PathVariable int id){
-        return scheduleRepository.findById(id);
+        return Optional.of(new Schedule("test", LocalTime.now(),LocalTime.now(),"test"));
     }
 
     public Optional<Schedule> getScheduleFallBack(@PathVariable int id){
-        return null;
+        return Optional.of(new Schedule("test", LocalTime.now(),LocalTime.now(),"test"));
     }
 
     @GetMapping
-    @ApiOperation(value = "Method to get schedules", response = List.class)
+    @ApiOperation(value = "Method to get schedules", response = ResponseEntity.class)
+    @CrossOrigin(origins = "http://localhost:4200")
     @HystrixCommand(
             fallbackMethod = "getSchedulesFallBack",
             threadPoolKey = "getSchedules",
@@ -45,11 +48,17 @@ public class MainController {
                     @HystrixProperty(name="coreSize", value="100"),
                     @HystrixProperty(name="maxQueueSize", value="50"),
             })
-    public List<Schedule> getSchedules(){
-        return scheduleRepository.findAll();
+    public ResponseEntity<?> getSchedules(){
+        try{
+            List<Schedule> schedules = scheduleRepository.findAll();
+            return ResponseEntity.ok(schedules);
+        }catch (Exception e){
+            System.out.println("Error: " + e.toString());
+            return null;
+        }
     }
 
-    public List<Schedule> getSchedulesFallBack(){
+    public ResponseEntity<?> getSchedulesFallBack(){
         return null;
     }
 

@@ -1,16 +1,10 @@
 package com.example.shedule.entities;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.persistence.*;
 import java.time.LocalTime;
 
 @Entity
 @Table(name="schedules")
-@Getter
-@Setter
-
 public class Schedule {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -27,6 +21,46 @@ public class Schedule {
         this.name = name;
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
+        this.dayOfWeek = dayOfWeek;
+    }
+
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public LocalTime getTimeStart() {
+        return timeStart;
+    }
+
+    public void setTimeStart(LocalTime timeStart) {
+        this.timeStart = timeStart;
+    }
+
+    public LocalTime getTimeEnd() {
+        return timeEnd;
+    }
+
+    public void setTimeEnd(LocalTime timeEnd) {
+        this.timeEnd = timeEnd;
+    }
+
+    public String getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public void setDayOfWeek(String dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
     }
 }
